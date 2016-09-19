@@ -1,3 +1,5 @@
+#lang racket
+
 (define (square x)
   (* x x))
 (define (smallest-divisor n)
@@ -54,3 +56,56 @@
      (sum poly-term 0 inc n)))
 (define (inc a)
   (+ a 1))
+
+
+(define (iter-sum term a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+       (iter (inc a) (+ (term a) result))))
+  (iter a 0))
+
+(define (product term a then b)
+  (if (> a b)
+      1
+      (* (term a)
+         (product term (then a) then b))))
+
+(define (factor n)
+  (product identity 1 inc n))
+
+(define (custom-pi n)
+  
+  (* 4
+     (/ 2 (+ 2 (* 2 n)))
+     (product pi-f 1 inc n)))
+
+(define (pi-f x)
+  (square (/ (+ 2 (* 2 x))
+             (+ 1 (* 2 x)))))
+(define (iter-product  term a then b)
+  
+  (define (iter a result)
+    
+    (if (> a b)
+        result
+        (iter (then a) (* (term a) result))))
+  (iter a 1))
+
+(define (accumulat combiner null-value term a next b)
+  (if (> a  b)
+      null-value
+      (combiner (term a)
+                (accumulat combiner null-value term (next a) next b))))
+
+(define (iter-accu combiner null-value term a next b)
+  (define (iter a null-value)
+    (if (> a b)
+        null-value
+        
+
+
+
+
+
+
